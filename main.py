@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, jsonify
 from youtube_transcript_api import YouTubeTranscriptApi, TranscriptsDisabled, NoTranscriptFound
 from urllib.parse import urlparse, parse_qs
@@ -16,7 +17,6 @@ def extract_video_id(youtube_url):
 
 @app.route('/get_transcript_api', methods=['POST'])
 def get_transcript_api():
-    # Option 1: Use force=True to get JSON even when Content-Type is not application/json.
     data = request.get_json(force=True)
     if not data or 'url' not in data:
         return jsonify({'error': 'Missing URL in request body'}), 400
@@ -46,4 +46,5 @@ def get_transcript_api():
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
