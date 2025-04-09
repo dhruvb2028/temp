@@ -1,0 +1,3 @@
+Flask
+flask_cors
+youtube_transcript_api
